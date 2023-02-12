@@ -1,35 +1,75 @@
-// pregunta para volver a jugar
-
+//pregunta volver a jugar
 function jugar_otra_vez() {
-	if (prompt("Si querés jugar otra vez escribí JUGAR.") == "JUGAR") {
-		let i = 0;
-	} else {
-		i = 100;
+	let jugarDeNuevo = confirm("¿Quieres jugar otra vez?");
+	if (jugarDeNuevo) {
+		puntuacion = 0;
+		juego();
 	}
 }
 
-let usuario = prompt("¿Cuál es tu nombre?");
+const ranking = [];
 
-// juego: 10 preguntas de multiplicacion de dos numeros random del cero al diez
+let primero = "";
+let segundo = "";
+let tercero = "";
 
-for (i = 0; i <= 10; i++) {
-	let numero_uno = parseInt(Math.random() * 10);
-	let numero_dos = parseInt(Math.random() * 10);
-	console.log(numero_uno, "x", numero_dos);
+let rank1 = document.getElementsByClassName("rank1")[0];
+let rank2 = document.getElementsByClassName("rank2")[0];
+let rank3 = document.getElementsByClassName("rank3")[0];
 
-	let respuesta = prompt("¿Cuánto es " + numero_uno + " x " + numero_dos + " ?");
+rank1.textContent = primero;
+rank2.textContent = segundo;
+rank3.textContent = tercero;
 
-	let solucion = numero_uno * numero_dos;
-
-	if (solucion == respuesta) {
-		console.log("¡Bien", usuario, "! Tu respuesta fue:", solucion, "Tenés:", i, " puntos.");
-	} else {
-		alert("¡PERDISTE!");
-		console.log("¡Incorrecto", usuario, "! La respuesta correcta era:", solucion, ". Obtuviste ", i, "puntos.");
-		jugar_otra_vez();
-	}
-	if (i == 10) {
-		alert("10/10 ¡GANASTE!");
-		jugar_otra_vez();
+class Usuario {
+	constructor(nombre, puntuacion) {
+		this.nombre = nombre;
+		this.fecha = Date();
+		this.puntuacion = puntuacion;
 	}
 }
+
+let puntuacion = 0;
+
+function juego() {
+	for (i = 0; i <= 10; i++) {
+		let numero_uno = parseInt(Math.random() * 10);
+		let numero_dos = parseInt(Math.random() * 10);
+		console.log(numero_uno, "x", numero_dos);
+
+		let respuesta = prompt("¿Cuánto es " + numero_uno + " x " + numero_dos + " ?");
+
+		let solucion = numero_uno * numero_dos;
+
+		if (solucion == respuesta) {
+			puntuacion = puntuacion + 1;
+			console.log("¡Bien! Tu respuesta fue:", solucion, "Tenés:", puntuacion, " puntos.");
+		} else {
+			console.log("¡Incorrecto! La respuesta correcta era:", solucion, ". Tenés ", puntuacion, "puntos.");
+		}
+		if (i == 10) {
+			alert("Obtuviste" + puntuacion + "/ 10");
+
+			ranking.push(new Usuario(prompt("¿Cuál es tu nombre?"), puntuacion));
+
+			ranking.sort((a, b) => b.puntuacion - a.puntuacion);
+
+			if (ranking[0]) {
+				primero = ranking[0].nombre;
+				rank1.textContent = primero;
+			}
+			if (ranking[1]) {
+				segundo = ranking[1].nombre;
+				rank2.textContent = segundo;
+			}
+			if (ranking[2]) {
+				tercero = ranking[2].nombre;
+				rank3.textContent = tercero;
+			}
+			console.log(ranking);
+			jugar_otra_vez();
+		}
+	}
+}
+
+juego();
