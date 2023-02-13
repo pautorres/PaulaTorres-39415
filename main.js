@@ -1,11 +1,13 @@
 //pregunta volver a jugar
 function jugar_otra_vez() {
-	let jugarDeNuevo = confirm("¿Quieres jugar otra vez?");
+	let jugarDeNuevo = confirm("¿Querés jugar otra vez?");
 	if (jugarDeNuevo) {
 		puntuacion = 0;
 		juego();
 	}
 }
+
+// ranking de personas con mas puntuacion
 
 const ranking = [];
 
@@ -21,6 +23,8 @@ rank1.textContent = primero;
 rank2.textContent = segundo;
 rank3.textContent = tercero;
 
+// clase de datos de la partida del ususario
+
 class Usuario {
 	constructor(nombre, puntuacion) {
 		this.nombre = nombre;
@@ -32,6 +36,7 @@ class Usuario {
 let puntuacion = 0;
 
 function juego() {
+	//juego de 10 multiplicaciones de numeros random del 0 al 10
 	for (i = 0; i <= 10; i++) {
 		let numero_uno = parseInt(Math.random() * 10);
 		let numero_dos = parseInt(Math.random() * 10);
@@ -72,4 +77,6 @@ function juego() {
 	}
 }
 
-juego();
+if (confirm("¿Jugar?")) {
+	juego();
+}
