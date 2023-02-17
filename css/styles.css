@@ -1,0 +1,41 @@
+@import url(//db.onlinewebfonts.com/c/43f4baf42da5b6a7a104c44af9737af2?family=EvelethW01-CleanRegular);
+
+body {
+  background-color: #28078a;
+  color: white;
+  font-family: "EvelethW01-CleanRegular";
+}
+
+.borde-blanco {
+  background-color: #28078a;
+  color: white;
+  border: 5px solid white;
+}
+
+.button-container {
+  height: 100%;
+  width: 100%;
+  margin: auto;
+  text-align: center;
+}
+
+.boton-jugar {
+  background-color: #28078a;
+  color: white;
+  border: 5px solid white;
+  font-size: 2em;
+  font-weight: 800;
+  cursor: pointer;
+  padding: 10px 40px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.ranking {
+  position: absolute;
+  top: 0;
+  padding: 10px;
+  margin: 10px;
+}

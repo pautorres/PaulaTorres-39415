@@ -77,6 +77,6 @@ function juego() {
 	}
 }
 
-if (confirm("¿Jugar?")) {
-	juego();
-}
+// if (confirm("¿Jugar?")) {
+// 	juego();
+// }
