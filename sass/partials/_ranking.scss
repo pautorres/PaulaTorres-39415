@@ -2,5 +2,12 @@
     position: absolute;
     top: 0;
     padding: 10px;
-    margin: 10px;
+    margin: 15px;
+    width: 10%;
+}
+
+@for $rank from 1 through 5 {
+    .rank#{$rank} {
+        list-style-type: "#{$rank} - ";
+    }
 }

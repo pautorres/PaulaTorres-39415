@@ -1,7 +1,14 @@
 @import url(//db.onlinewebfonts.com/c/43f4baf42da5b6a7a104c44af9737af2?family=EvelethW01-CleanRegular);
 
 body {
-    background-color: #28078a;
+    overflow: hidden;
+    margin: 0;
     color: white;
     font-family: "EvelethW01-CleanRegular";
+    width: 100%;
+    height: 100%;
+    video {
+        width: 100%;
+        height: 100%;
+    }
 }
