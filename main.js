@@ -6,6 +6,7 @@ if (rankingJSON !== null) {
 }
 
 //desahabilitar el boton jugar por default si no se puso un nombre
+
 let boton_jugar = document.getElementsByClassName("boton-jugar")[0];
 boton_jugar.disabled = true;
 
@@ -20,6 +21,7 @@ nombre_usuario.addEventListener("input", function () {
 });
 
 //poner los nombres del ranking en el html
+
 let primero = "";
 let segundo = "";
 let tercero = "";
@@ -35,7 +37,8 @@ let rank5 = document.getElementsByClassName("rank5")[0];
 rank1.textContent = primero;
 rank2.textContent = segundo;
 rank3.textContent = tercero;
-rank4.textContent = quinto;
+rank4.textContent = cuarto;
+rank5.textContent = quinto;
 
 //clase usuario
 class Usuario {
@@ -57,12 +60,16 @@ function juego() {
 	//TIMER 30 segundo
 	let seconds = 30;
 	let timer = setInterval(function () {
+		if (juego.style.display === "none") {
+			clearInterval(timer); // parar el timer si el boton juego no esta en display
+			return;
+		}
 		seconds--;
 		document.getElementById("timer").textContent = seconds;
 		if (seconds === 0) {
-			//si llega a 0 el juego se termina
+			//si el timer llega a 0 perdés
 			clearInterval(timer);
-			alert("Tiempo agotado. Obtuviste " + puntuacion + "/10");
+			alert("¡Muy lento! Perdiste.");
 			juego.style.display = "none";
 			main_page.style.display = "block";
 		}
@@ -127,7 +134,7 @@ function juego() {
 				rank4.textContent = cuarto;
 			}
 			if (ranking[4]) {
-				quiinto = ranking[4].nombre;
+				quinto = ranking[4].nombre;
 				rank5.textContent = quinto;
 			}
 
