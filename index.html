@@ -12,20 +12,24 @@
 			<source src="./img/y2mate.com - Blue glitch background video free download without water mark  Royalty free video_1080p.mp4" type="video/mp4" />
 		</video>
 		<main>
-			<button class="boton-jugar" onclick="juego()">JUGAR</button>
-			<div class="ranking borde-blanco">
-				<span>Ranking:</span>
-				<ol>
-					<li class="rank1"></li>
-					<li class="rank2"></li>
-					<li class="rank3"></li>
-					<li class="rank4"></li>
-					<li class="rank5"></li>
-				</ol>
+			<div class="nombre-container">
+				<label for="nombre_jugador">PONE TU NOMBRE PARA JUGAR: </label>
+				<input type="text" id="nombre_jugador" class="borde-blanco" />
 			</div>
+			<button class="boton-jugar" onclick="juego()">JUGAR</button>
 		</main>
+		<div class="ranking borde-blanco">
+			<span>Ranking:</span>
+			<ol>
+				<li class="rank1"></li>
+				<li class="rank2"></li>
+				<li class="rank3"></li>
+				<li class="rank4"></li>
+				<li class="rank5"></li>
+			</ol>
+		</div>
 		<div class="juego">
-			<div id="timer">60</div>
+			<div id="timer">30</div>
 			<span id="multi"></span>
 			<input type="number" id="respuesta" class="borde-blanco" />
 		</div>

@@ -1,3 +1,18 @@
+//desahabilitar el boton jugar por default si no se puso un nombre
+
+let boton_jugar = document.getElementsByClassName("boton-jugar")[0];
+boton_jugar.disabled = true;
+
+let nombre_usuario = document.getElementById("nombre_jugador");
+nombre_usuario.addEventListener("input", function () {
+	if (nombre_usuario.value !== "") {
+		boton_jugar.disabled = false;
+		boton_jugar.style.border = "5px solid white"; // Enable button if input field is not empty
+	} else {
+		boton_jugar.disabled = true; // Disable button if input field is empty
+	}
+});
+
 // ranking de personas con mas puntuacion
 
 const ranking = [];
@@ -20,7 +35,7 @@ rank3.textContent = tercero;
 rank4.textContent = cuarto;
 rank5.textContent = quinto;
 
-// clase de datos de la partida del ususario
+// clase de datos de la partida del usuario
 
 class Usuario {
 	constructor(nombre, puntuacion) {
@@ -30,48 +45,61 @@ class Usuario {
 	}
 }
 
-let puntuacion = 0;
-
+//juego
 function juego() {
+	//cambios en el html cuando se presiona JUGAR
 	let juego = document.getElementsByClassName("juego")[0];
 	juego.style.display = "block";
-	//timer
-	let boton_jugar = document.getElementsByClassName("boton-jugar")[0];
-	boton_jugar.style.display = "none";
+	let main_page = document.getElementsByTagName("main")[0];
+	main_page.style.display = "none";
 
-	var seconds = 60;
-	var timer = setInterval(function () {
+	//TIMER
+	let seconds = 30;
+	let timer = setInterval(function () {
 		seconds--;
 		document.getElementById("timer").textContent = seconds;
 	}, 1000);
 
 	//juego de 10 multiplicaciones de numeros random del 0 al 10
+	let preguntas = [];
+	let respuestas = [];
+
 	for (i = 0; i < 10; i++) {
 		let numero_uno = parseInt(Math.random() * 10);
 		let numero_dos = parseInt(Math.random() * 10);
-		console.log(numero_uno, "x", numero_dos);
 
+		preguntas.push(numero_uno + " x " + numero_dos);
+		respuestas.push(numero_uno * numero_dos);
+	}
+
+	let pregunta_actual = 0;
+	let puntuacion = 0;
+
+	function mostrar_pregunta() {
 		let multi = document.getElementById("multi");
-		multi.textContent = numero_uno + " x " + numero_dos;
+		multi.textContent = preguntas[pregunta_actual];
+	}
 
-		let rta = document.getElementById("respuesta").value;
+	function validar_respuesta() {
+		let rta = document.getElementById("respuesta");
+		let respuesta = parseInt(rta.value);
 
-		let solucion = numero_uno * numero_dos;
-
-		if (solucion == respuesta) {
-			let respuesta = rta.onchange;
-
-			puntuacion = puntuacion + 1;
-			console.log("¡Bien! Tu respuesta fue:", solucion, "Tenés:", puntuacion, " puntos.");
+		if (respuestas[pregunta_actual] == respuesta) {
+			puntuacion++;
+			console.log("¡Bien! Tu respuesta fue:", respuesta, "Tenés:", puntuacion, " puntos.");
 		} else {
-			console.log("¡Incorrecto! La respuesta correcta era:", solucion, ". Tenés ", puntuacion, "puntos.");
+			console.log("¡Incorrecto! La respuesta correcta era:", respuestas[pregunta_actual], ". Tenés ", puntuacion, "puntos.");
 		}
-		if (i == 10 || seconds == 0) {
+
+		pregunta_actual++;
+
+		if (pregunta_actual == 10 || seconds == 0) {
 			clearInterval(timer);
 
-			alert("Obtuviste" + puntuacion + "/ 10");
+			alert("Obtuviste " + puntuacion + "/10");
 
-			ranking.push(new Usuario(prompt("¿Cuál es tu nombre?"), puntuacion));
+			let nombre = document.getElementById("nombre_usuario").value;
+			ranking.push(new Usuario(nombre, puntuacion));
 
 			ranking.sort((a, b) => b.puntuacion - a.puntuacion);
 
@@ -95,6 +123,22 @@ function juego() {
 				quinto = ranking[4].nombre;
 				rank5.textContent = quinto;
 			}
+		} else {
+			mostrar_pregunta();
 		}
+
+		rta.value = "";
 	}
+
+	console.log(ranking);
+
+	//validar respuesta si el usuario presiona la tecla enter
+	mostrar_pregunta();
+	let rta = document.getElementById("respuesta");
+	rta.addEventListener("keydown", function (event) {
+		if (event.key === "Enter") {
+			event.preventDefault();
+			validar_respuesta();
+		}
+	});
 }

@@ -15,7 +15,7 @@
 .boton-jugar {
     background: none;
     color: white;
-    border: 5px solid white;
+    border: 5px solid gray;
     font-size: 2em;
     font-weight: 800;
     cursor: pointer;
@@ -24,4 +24,11 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+
+.nombre-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -250%);
 }
