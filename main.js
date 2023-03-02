@@ -7,15 +7,16 @@ let nombre_usuario = document.getElementById("nombre_jugador");
 nombre_usuario.addEventListener("input", function () {
 	if (nombre_usuario.value !== "") {
 		boton_jugar.disabled = false;
-		boton_jugar.style.border = "5px solid white"; // Enable button if input field is not empty
+		boton_jugar.style.border = "5px solid white";
 	} else {
-		boton_jugar.disabled = true; // Disable button if input field is empty
+		boton_jugar.disabled = true;
 	}
 });
 
-// ranking de personas con mas puntuacion
+//ranking
 
-const ranking = [];
+let ranking = [];
+ranking.push(JSON.parse(localStorage.getItem("ranking")));
 
 let primero = "";
 let segundo = "";
@@ -32,10 +33,7 @@ let rank5 = document.getElementsByClassName("rank5")[0];
 rank1.textContent = primero;
 rank2.textContent = segundo;
 rank3.textContent = tercero;
-rank4.textContent = cuarto;
-rank5.textContent = quinto;
-
-// clase de datos de la partida del usuario
+rank4.textContent = quinto;
 
 class Usuario {
 	constructor(nombre, puntuacion) {
@@ -98,10 +96,11 @@ function juego() {
 
 			alert("Obtuviste " + puntuacion + "/10");
 
-			let nombre = document.getElementById("nombre_usuario").value;
+			let nombre = document.getElementById("nombre_jugador").value;
+
 			ranking.push(new Usuario(nombre, puntuacion));
 
-			ranking.sort((a, b) => b.puntuacion - a.puntuacion);
+			sort();
 
 			if (ranking[0]) {
 				primero = ranking[0].nombre;
@@ -120,17 +119,18 @@ function juego() {
 				rank4.textContent = cuarto;
 			}
 			if (ranking[4]) {
-				quinto = ranking[4].nombre;
+				quiinto = ranking[4].nombre;
 				rank5.textContent = quinto;
 			}
+
+			const rankingJSON = JSON.stringify(ranking);
+			localStorage.setItem("ranking", rankingJSON);
 		} else {
 			mostrar_pregunta();
 		}
 
 		rta.value = "";
 	}
-
-	console.log(ranking);
 
 	//validar respuesta si el usuario presiona la tecla enter
 	mostrar_pregunta();
@@ -140,5 +140,11 @@ function juego() {
 			event.preventDefault();
 			validar_respuesta();
 		}
+	});
+}
+
+function sort() {
+	ranking.sort(function (a, b) {
+		return b.puntuacion - a.puntuacion;
 	});
 }
