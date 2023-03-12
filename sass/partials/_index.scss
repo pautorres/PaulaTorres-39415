@@ -15,11 +15,9 @@ body {
 }
 
 #particulas {
-    background-image: url(/img/sun.gif);
     background-size: contain;
     position: absolute;
-    z-index: 3;
-    min-height: 40px;
-    min-width: 40px;
-    border: 2px solid black;
+    z-index: 2;
+    height: 40px;
+    width: 40px;
 }

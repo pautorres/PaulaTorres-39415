@@ -1,19 +1,26 @@
-let particulas = document.getElementById('particulas');
-document.addEventListener('mousemove', (e) => {
-	particulas.style.left = e.pageX + 17 + 'px';
-	particulas.style.top = e.pageY + 17 + 'px';
-});
+// gif que cambia segun el clima optenido por api
+
+let div_particulas = document.getElementById('div_particulas');
+
 function cursor(posicion) {
 	let lat = posicion.coords.latitude;
 	let long = posicion.coords.longitude;
-	// let key = '174a18edc0ac641c5aa02dd32e489103';
 
-	fetch('https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&appid=174a18edc0ac641c5aa02dd32e489103')
+	fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&appid=174a18edc0ac641c5aa02dd32e489103`)
 		.then((response) => response.json())
-		.then((data) => console.log(data));
+		.then((data) => {
+			let gif = data.weather[0].description; //cada gif tiene el nombre la data de weather description
+			div_particulas.innerHTML = `<div id="particulas" style="background-image: url('/img/${gif}.gif')"></div>`;
+		});
 }
 
 navigator.geolocation.getCurrentPosition(cursor);
+
+document.addEventListener('mousemove', (e) => {
+	let particulas = document.getElementById('particulas');
+	particulas.style.left = e.pageX + 15 + 'px';
+	particulas.style.top = e.pageY + 15 + 'px';
+});
 
 //ranking
 let ranking = [];
@@ -66,7 +73,7 @@ class Usuario {
 	}
 }
 
-//juego
+//juego de 10 multiplicaciones de numeros random del 0 al 9
 function juego() {
 	//cambios en el html cuando se presiona JUGAR
 	let juego = document.getElementsByClassName('juego')[0];
@@ -95,7 +102,6 @@ function juego() {
 		}
 	}, 1000);
 
-	//juego de 10 multiplicaciones de numeros random del 0 al 10
 	let preguntas = [];
 	let respuestas = [];
 
@@ -129,7 +135,7 @@ function juego() {
 		pregunta_actual++; //cambiar de pregunta
 
 		if (pregunta_actual == 10 || seconds == 0) {
-			//cuando no hayan mas preguntas o se acabe el tiempo finaliza el juego
+			//cuando no hayan mas preguntas finaliza el juego
 			Swal.fire({
 				text: 'Obtuviste ' + puntuacion + ' puntos.',
 				icon: 'success',
