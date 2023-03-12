@@ -1,6 +1,5 @@
 @import url(//db.onlinewebfonts.com/c/43f4baf42da5b6a7a104c44af9737af2?family=EvelethW01-CleanRegular);
 body {
-  background-color: black;
   overflow: hidden;
   margin: 0;
   color: white;
@@ -11,16 +10,6 @@ body {
 body video {
   width: 100%;
   height: 100%;
-}
-
-#particulas {
-  background-image: url(/img/sun.gif);
-  background-size: contain;
-  position: absolute;
-  z-index: 3;
-  min-height: 40px;
-  min-width: 40px;
-  border: 2px solid black;
 }
 
 .borde-blanco {
@@ -111,4 +100,4 @@ body video {
   width: inherit;
 }
 
-/*# sourceMappingURL=styles.css.map */
+/*# sourceMappingURL=styles.com.map */

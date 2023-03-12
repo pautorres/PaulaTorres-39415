@@ -1,20 +1,37 @@
+let particulas = document.getElementById('particulas');
+document.addEventListener('mousemove', (e) => {
+	particulas.style.left = e.pageX + 17 + 'px';
+	particulas.style.top = e.pageY + 17 + 'px';
+});
+function cursor(posicion) {
+	let lat = posicion.coords.latitude;
+	let long = posicion.coords.longitude;
+	// let key = '174a18edc0ac641c5aa02dd32e489103';
+
+	fetch('https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&appid=174a18edc0ac641c5aa02dd32e489103')
+		.then((response) => response.json())
+		.then((data) => console.log(data));
+}
+
+navigator.geolocation.getCurrentPosition(cursor);
+
 //ranking
 let ranking = [];
-const rankingJSON = localStorage.getItem("ranking"); //obtener key con data de ultimo ranking
+const rankingJSON = localStorage.getItem('ranking'); //obtener key con data de ultimo ranking
 if (rankingJSON !== null) {
 	ranking = JSON.parse(rankingJSON);
 }
 
 //desahabilitar el boton jugar por default si no se puso un nombre
 
-let boton_jugar = document.getElementsByClassName("boton-jugar")[0];
+let boton_jugar = document.getElementsByClassName('boton-jugar')[0];
 boton_jugar.disabled = true;
 
-let nombre_usuario = document.getElementById("nombre_jugador");
-nombre_usuario.addEventListener("input", function () {
-	if (nombre_usuario.value !== "") {
+let nombre_usuario = document.getElementById('nombre_jugador');
+nombre_usuario.addEventListener('input', function () {
+	if (nombre_usuario.value !== '') {
 		boton_jugar.disabled = false;
-		boton_jugar.style.border = "5px solid white";
+		boton_jugar.style.border = '5px solid white';
 	} else {
 		boton_jugar.disabled = true;
 	}
@@ -22,17 +39,17 @@ nombre_usuario.addEventListener("input", function () {
 
 //poner los nombres del ranking en el html
 
-let primero = "";
-let segundo = "";
-let tercero = "";
-let cuarto = "";
-let quinto = "";
+let primero = '';
+let segundo = '';
+let tercero = '';
+let cuarto = '';
+let quinto = '';
 
-let rank1 = document.getElementsByClassName("rank1")[0];
-let rank2 = document.getElementsByClassName("rank2")[0];
-let rank3 = document.getElementsByClassName("rank3")[0];
-let rank4 = document.getElementsByClassName("rank4")[0];
-let rank5 = document.getElementsByClassName("rank5")[0];
+let rank1 = document.getElementsByClassName('rank1')[0];
+let rank2 = document.getElementsByClassName('rank2')[0];
+let rank3 = document.getElementsByClassName('rank3')[0];
+let rank4 = document.getElementsByClassName('rank4')[0];
+let rank5 = document.getElementsByClassName('rank5')[0];
 
 rank1.textContent = primero;
 rank2.textContent = segundo;
@@ -52,26 +69,29 @@ class Usuario {
 //juego
 function juego() {
 	//cambios en el html cuando se presiona JUGAR
-	let juego = document.getElementsByClassName("juego")[0];
-	juego.style.display = "block";
-	let main_page = document.getElementsByTagName("main")[0];
-	main_page.style.display = "none";
+	let juego = document.getElementsByClassName('juego')[0];
+	juego.style.display = 'block';
+	let main_page = document.getElementsByTagName('main')[0];
+	main_page.style.display = 'none';
 
 	//TIMER 30 segundo
 	let seconds = 30;
 	let timer = setInterval(function () {
-		if (juego.style.display === "none") {
+		if (juego.style.display === 'none') {
 			clearInterval(timer); // parar el timer si el boton juego no esta en display
 			return;
 		}
 		seconds--;
-		document.getElementById("timer").textContent = seconds;
+		document.getElementById('timer').textContent = seconds;
 		if (seconds === 0) {
 			//si el timer llega a 0 perdés
 			clearInterval(timer);
-			alert("¡Muy lento! Perdiste.");
-			juego.style.display = "none";
-			main_page.style.display = "block";
+			Swal.fire({
+				text: '¡Perdiste!',
+				icon: 'error',
+			});
+			juego.style.display = 'none';
+			main_page.style.display = 'block';
 		}
 	}, 1000);
 
@@ -84,7 +104,7 @@ function juego() {
 		let numero_uno = parseInt(Math.random() * 10);
 		let numero_dos = parseInt(Math.random() * 10);
 
-		preguntas.push(numero_uno + " x " + numero_dos);
+		preguntas.push(numero_uno + ' x ' + numero_dos);
 		respuestas.push(numero_uno * numero_dos);
 	}
 
@@ -93,13 +113,13 @@ function juego() {
 
 	function mostrar_pregunta() {
 		//mostrar la multiplicacion en el html
-		let multi = document.getElementById("multi");
+		let multi = document.getElementById('multi');
 		multi.textContent = preguntas[pregunta_actual];
 	}
 
 	function validar_respuesta() {
 		//validar la respuesta que dio el usuario, si es correcta sumar un punto
-		let rta = document.getElementById("respuesta");
+		let rta = document.getElementById('respuesta');
 		let respuesta = parseInt(rta.value);
 
 		if (respuestas[pregunta_actual] == respuesta) {
@@ -110,9 +130,12 @@ function juego() {
 
 		if (pregunta_actual == 10 || seconds == 0) {
 			//cuando no hayan mas preguntas o se acabe el tiempo finaliza el juego
-			alert("Obtuviste " + puntuacion + "/10");
+			Swal.fire({
+				text: 'Obtuviste ' + puntuacion + ' puntos.',
+				icon: 'success',
+			});
 
-			let nombre = document.getElementById("nombre_jugador").value;
+			let nombre = document.getElementById('nombre_jugador').value;
 			ranking.push(new Usuario(nombre, puntuacion)); //push al array ranking del nombre de usuario y su puntuacion
 			sort();
 
@@ -140,25 +163,25 @@ function juego() {
 
 			//update de la key "ranking" con el nuevo array de ranking
 			const rankingJSON = JSON.stringify(ranking);
-			localStorage.setItem("ranking", rankingJSON);
+			localStorage.setItem('ranking', rankingJSON);
 
 			//cuando se acaba el juego aparece la pantalla con el boton jugar
-			let juego = document.getElementsByClassName("juego")[0];
-			juego.style.display = "none";
-			let main_page = document.getElementsByTagName("main")[0];
-			main_page.style.display = "block";
+			let juego = document.getElementsByClassName('juego')[0];
+			juego.style.display = 'none';
+			let main_page = document.getElementsByTagName('main')[0];
+			main_page.style.display = 'block';
 		} else {
 			mostrar_pregunta();
 		}
 
-		rta.value = ""; //borrar el valor de la respuesta para una nueva pregunta
+		rta.value = ''; //borrar el valor de la respuesta para una nueva pregunta
 	}
 
 	//nueva pregunta si el usuario presiona la tecla enter
 	mostrar_pregunta();
-	let rta = document.getElementById("respuesta");
-	rta.addEventListener("keydown", function (event) {
-		if (event.key === "Enter") {
+	let rta = document.getElementById('respuesta');
+	rta.addEventListener('keydown', function (event) {
+		if (event.key === 'Enter') {
 			event.preventDefault();
 			validar_respuesta();
 		}
