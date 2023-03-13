@@ -118,9 +118,6 @@ function juego() {
 		}
 	}, 1000);
 
-	let preguntas = [];
-	let respuestas = [];
-
 	for (i = 0; i < 10; i++) {
 		//generar la 10 preguntas
 		let numero_uno = parseInt(Math.random() * 10);
