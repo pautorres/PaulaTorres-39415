@@ -9,14 +9,30 @@ function cursor(posicion) {
 	fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&appid=174a18edc0ac641c5aa02dd32e489103`)
 		.then((response) => response.json())
 		.then((data) => {
-			let gif = data.weather[0].description; //cada gif tiene el nombre la data de weather description
-			div_particulas.innerHTML = `<div id="particulas" style="background-image: url('/img/${gif}.gif')"></div>`;
+			if (data.weather[0].id < 300) {
+				div_particulas.innerHTML = `<div id="particulas" style="background-image: url('/img/thunderstorm.gif')"></div>`;
+			} else if (data.weather[0].id < 400) {
+				div_particulas.innerHTML = `<div id="particulas" style="background-image: url('/img/shower rain.gif')"></div>`;
+			} else if (data.weather[0].id < 531) {
+				div_particulas.innerHTML = `<div id="particulas" style="background-image: url('/img/rain.gif')"></div>`;
+			} else if (data.weather[0].id < 800) {
+				div_particulas.innerHTML = `<div id="particulas" style="background-image: url('/img/mist.gif')"></div>`;
+			} else if (data.weather[0].id < 801) {
+				div_particulas.innerHTML = `<div id="particulas" style="background-image: url('/img/clear sky.gif')"></div>`;
+			} else if (data.weather[0].id < 802) {
+				div_particulas.innerHTML = `<div id="particulas" style="background-image: url('/img/few clouds.gif')"></div>`;
+			} else if (data.weather[0].id < 803) {
+				div_particulas.innerHTML = `<div id="particulas" style="background-image: url('/img/scattered clouds.gif')"></div>`;
+			} else {
+				div_particulas.innerHTML = `<div id="particulas" style="background-image: url('/img/broken clouds.gif')"></div>`;
+			}
 		});
 }
 
 navigator.geolocation.getCurrentPosition(cursor);
 
 document.addEventListener('mousemove', (e) => {
+	//hacer que el gif siga al mouse
 	let particulas = document.getElementById('particulas');
 	particulas.style.left = e.pageX + 15 + 'px';
 	particulas.style.top = e.pageY + 15 + 'px';
