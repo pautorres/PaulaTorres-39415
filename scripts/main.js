@@ -118,6 +118,9 @@ function juego() {
 		}
 	}, 1000);
 
+	let preguntas = [];
+	let respuestas = [];
+
 	for (i = 0; i < 10; i++) {
 		//generar la 10 preguntas
 		let numero_uno = parseInt(Math.random() * 10);
@@ -138,13 +141,16 @@ function juego() {
 
 	function validar_respuesta() {
 		//validar la respuesta que dio el usuario, si es correcta sumar un punto
-		let rta = document.getElementById('respuesta');
-		let respuesta = parseInt(rta.value);
+		let rta = document.getElementById('respuesta').value;
 
+		console.log(rta);
+		let respuesta = parseInt(rta);
+		console.log(rta, respuesta);
+		console.log(pregunta_actual, puntuacion, 'antes de validar');
 		if (respuestas[pregunta_actual] == respuesta) {
 			puntuacion++;
 		}
-
+		console.log(pregunta_actual, puntuacion);
 		pregunta_actual++; //cambiar de pregunta
 
 		if (pregunta_actual == 10 || seconds == 0) {
@@ -193,14 +199,15 @@ function juego() {
 			mostrar_pregunta();
 		}
 
-		rta.value = ''; //borrar el valor de la respuesta para una nueva pregunta
+		siguiente.value = ''; //borrar numeros puestos
 	}
 
 	//nueva pregunta si el usuario presiona la tecla enter
 	mostrar_pregunta();
-	let rta = document.getElementById('respuesta');
-	rta.addEventListener('keydown', function (event) {
+	let siguiente = document.getElementById('respuesta');
+	siguiente.addEventListener('keydown', function (event) {
 		if (event.key === 'Enter') {
+			console.log('enter');
 			event.preventDefault();
 			validar_respuesta();
 		}
