@@ -9,6 +9,7 @@ function cursor(posicion) {
 	fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&appid=174a18edc0ac641c5aa02dd32e489103`)
 		.then((response) => response.json())
 		.then((data) => {
+			console.log(data.weather[0].id, data.weather[0].description);
 			if (data.weather[0].id < 300) {
 				div_particulas.innerHTML = `<div id="particulas" style="background-image: url('/img/thunderstorm.gif')"></div>`;
 			} else if (data.weather[0].id < 400) {
@@ -55,6 +56,9 @@ nombre_usuario.addEventListener('input', function () {
 	if (nombre_usuario.value !== '') {
 		boton_jugar.disabled = false;
 		boton_jugar.style.border = '5px solid white';
+		boton_jugar.addEventListener('click', function () {
+			juego();
+		});
 	} else {
 		boton_jugar.disabled = true;
 	}
@@ -97,7 +101,7 @@ function juego() {
 	let main_page = document.getElementsByTagName('main')[0];
 	main_page.style.display = 'none';
 
-	//TIMER 30 segundo
+	//TIMER 30 segundos
 	let seconds = 30;
 	let timer = setInterval(function () {
 		if (juego.style.display === 'none') {
@@ -140,20 +144,22 @@ function juego() {
 	}
 
 	function validar_respuesta() {
-		//validar la respuesta que dio el usuario, si es correcta sumar un punto
-		let rta = document.getElementById('respuesta').value;
+		let inputrta = document.getElementById('respuesta').value; //obetener input respuesta
 
-		console.log(rta);
-		let respuesta = parseInt(rta);
-		console.log(rta, respuesta);
-		console.log(pregunta_actual, puntuacion, 'antes de validar');
-		if (respuestas[pregunta_actual] == respuesta) {
-			puntuacion++;
+		if (inputrta !== '') {
+			let respuesta = inputrta;
+			if (respuestas[pregunta_actual] == respuesta) {
+				//verificar respuesta
+				puntuacion++;
+			}
 		}
-		console.log(pregunta_actual, puntuacion);
+		if (typeof preguntas[pregunta_actual] !== 'undefined') {
+			siguiente.value = 'Siguiente';
+		}
+
 		pregunta_actual++; //cambiar de pregunta
 
-		if (pregunta_actual == 10 || seconds == 0) {
+		if (pregunta_actual == 10) {
 			//cuando no hayan mas preguntas finaliza el juego
 			Swal.fire({
 				text: 'Obtuviste ' + puntuacion + ' puntos.',
@@ -198,16 +204,15 @@ function juego() {
 		} else {
 			mostrar_pregunta();
 		}
-
-		siguiente.value = ''; //borrar numeros puestos
 	}
 
 	//nueva pregunta si el usuario presiona la tecla enter
 	mostrar_pregunta();
+
+	// llamar funcion de validar respuesta al presionar enter
 	let siguiente = document.getElementById('respuesta');
 	siguiente.addEventListener('keydown', function (event) {
 		if (event.key === 'Enter') {
-			console.log('enter');
 			event.preventDefault();
 			validar_respuesta();
 		}
