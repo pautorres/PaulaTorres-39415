@@ -11,6 +11,7 @@ function cursor(posicion) {
 		.then((data) => {
 			console.log(data.weather[0].id, data.weather[0].description);
 			if (data.weather[0].id < 300) {
+				//las descripciones de clima tienen un id, segun su id sale un gif diferente
 				div_particulas.innerHTML = `<div id="particulas" style="background-image: url('/img/thunderstorm.gif')"></div>`;
 			} else if (data.weather[0].id < 400) {
 				div_particulas.innerHTML = `<div id="particulas" style="background-image: url('/img/shower rain.gif')"></div>`;
@@ -33,7 +34,7 @@ function cursor(posicion) {
 navigator.geolocation.getCurrentPosition(cursor);
 
 document.addEventListener('mousemove', (e) => {
-	//hacer que el gif siga al mouse
+	//hacer que el gif este a 15pxd el cursos del mouse
 	let particulas = document.getElementById('particulas');
 	particulas.style.left = e.pageX + 15 + 'px';
 	particulas.style.top = e.pageY + 15 + 'px';
@@ -126,7 +127,7 @@ function juego() {
 	let respuestas = [];
 
 	for (i = 0; i < 10; i++) {
-		//generar la 10 preguntas
+		//generar las 10 preguntas y sus respectivas respuestas
 		let numero_uno = parseInt(Math.random() * 10);
 		let numero_dos = parseInt(Math.random() * 10);
 
@@ -154,7 +155,7 @@ function juego() {
 			}
 		}
 		if (typeof preguntas[pregunta_actual] !== 'undefined') {
-			siguiente.value = 'Siguiente';
+			siguiente.value = 'Siguiente'; //borrar la respuesta del input
 		}
 
 		pregunta_actual++; //cambiar de pregunta
@@ -206,7 +207,6 @@ function juego() {
 		}
 	}
 
-	//nueva pregunta si el usuario presiona la tecla enter
 	mostrar_pregunta();
 
 	// llamar funcion de validar respuesta al presionar enter
